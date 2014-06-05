@@ -79,11 +79,11 @@
     <ClCompile Include="..\..\..\libraries\cinder_0.8.6_dev\blocks\SimpleGUI\src\SimpleGUI.cpp">
       <Filter>Blocks\SimpleGUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\libraries\cinder_0.8.6_dev\blocks\OpenAL\src\OpenAL.cpp">
-      <Filter>Blocks\OpenAL</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Game\Enemy.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\libraries\cinder_0.8.6_dev\blocks\OpenAL\src\OpenAL.cpp">
+      <Filter>Blocks\OpenAL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -3,7 +3,6 @@
 #include "System/Common.h"
 #include "App/Input.h"
 #include "Utils/Stats.h"
-#include <deque>
 
 namespace gen
 {
@@ -28,7 +27,7 @@ public:
     void DrawScore();
 
     GameState       m_gameState;
-    bool            m_gravity;          // toggle to enable or disable gravity TODO: physics state?
+    bool            m_gravity;
     bool            m_displayStats;
     bool            m_displayGui;
     bool            m_fullscreen;
@@ -37,7 +36,7 @@ public:
 
     PlayerCam*      m_pCamera;
 
-    std::deque<ObjectData*> m_objects; // collection of assets
+    std::deque<ObjectData*> m_objects;  // collection of assets
     World*          m_pWorld;
 
     ci::gl::Fbo     m_fbo;
@@ -63,20 +62,11 @@ public:
     ci::audio::SourceRef m_bgm2;
     ci::audio::SourceRef m_bgm3;
     ci::audio::SourceRef m_bgm4;
-#elif CI_AUDIO2
-    ci::audio2::VoiceRef m_bgm1;
-    ci::audio2::VoiceRef m_bgm2;
-    ci::audio2::VoiceRef m_bgm3;
-    ci::audio2::VoiceRef m_bgm4;
 #elif AL_AUDIO
-    ALuint m_bgm1_buffer;
-    ALuint m_bgm2_buffer;
-    ALuint m_bgm3_buffer;
-    ALuint m_bgm4_buffer;
-    std::deque<ALuint> m_bgm1_sources;
-    std::deque<ALuint> m_bgm2_sources;
-    std::deque<ALuint> m_bgm3_sources;
-    std::deque<ALuint> m_bgm4_sources;
+    OpenAL::Sound*  m_pBgm1;
+    OpenAL::Sound*  m_pBgm2;
+    OpenAL::Sound*  m_pBgm3;
+    OpenAL::Sound*  m_pBgm4;
 #endif
 
     ci::TextBox     m_scoreText;

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "System/Common.h"
-#include <map>
 
 namespace gen
 {
@@ -16,7 +15,6 @@ enum INPUT_KEY
     KEY_TOGGLE_GUI          = ci::app::KeyEvent::KEY_g,
     KEY_TOGGLE_WIREFRAME    = ci::app::KeyEvent::KEY_h,
     KEY_ADVANCE_GAME_STATE  = ci::app::KeyEvent::KEY_n, 
-    KEY_NEXT_LEVEL          = ci::app::KeyEvent::KEY_TAB,
 #endif
     KEY_TOGGLE_MUSIC        = ci::app::KeyEvent::KEY_m,
     KEY_TOGGLE_FULLSCREEN   = ci::app::KeyEvent::KEY_f,
@@ -26,10 +24,11 @@ enum INPUT_KEY
     KEY_SCORE               = ci::app::KeyEvent::KEY_s,
 };
 
+// TODO: add mappings for multiple gamepads on a single platform
 enum GAMEPAD
 {
-#ifdef __APPLE__
-// PS3 - vendorID == 1356
+#ifdef __APPLE__    // Support PS3 controllers on MacOSX
+//  PS3 - vendorID == 1356
     PAD_A           = 14,   // cross
     PAD_B           = 13,   // circle
     PAD_X           = 15,   // square
@@ -40,23 +39,23 @@ enum GAMEPAD
     PAD_START       = 3,
     PAD_L3          = 1,
     PAD_R3          = 2,
-//    PAD_L2R2        = 2, // 0 to 1
-    // L2_AXIS = 14 // -1 to 1
-    // L2_BUTTON = 8
-    // R2_AXIS = 15 // -1 to 1
-    // R2_BUTTON = 9
-    PAD_LSTICK_X    = 0, // -1 left to 1 right
-    PAD_LSTICK_Y    = 1, // 1 down to -1 up
-    PAD_RSTICK_X    = 2, // -1 left to 1 right
-    PAD_RSTICK_Y    = 3, // 1 down to -1 up
-    PAD_DPAD_X      = 5, // -1 left or 1 right
-    PAD_DPAD_Y      = 6, // 1 down or -1 up
-    // DPAD_RIGHT = 4
-    // DPAD_UP = 5
-    // DPAD_DOWN = 6
-    // DPAD_LEFT = 7
-#else
-    // 360
+    PAD_LSTICK_X    = 0,    // -1 left to 1 right
+    PAD_LSTICK_Y    = 1,    // 1 down to -1 up
+    PAD_RSTICK_X    = 2,    // -1 left to 1 right
+    PAD_RSTICK_Y    = 3,    // 1 down to -1 up
+
+    // TODO: The following axes are handled differently on PS3 and 360 controllers
+    PAD_L2_AXIS     = 14,   // -1 to 1
+    PAD_L2_BUTTON   = 8,
+    PAD_R2_AXIS     = 15,   // -1 to 1
+    PAD_R2_BUTTON   = 9,
+    PAD_DPAD_RIGHT  = 4,
+    PAD_DPAD_UP     = 5,
+    PAD_DPAD_DOWN   = 6,
+    PAD_DPAD_LEFT   = 7,
+
+#else           // Support XBOX controllers on Windows
+//  360 - vendorID == 1118
     PAD_A           = 0,
     PAD_B           = 1,
     PAD_X           = 2,
@@ -67,13 +66,15 @@ enum GAMEPAD
     PAD_START       = 7,
     PAD_L3          = 8,
     PAD_R3          = 9,
-//    PAD_L2R2        = 2, // 0 to 1
-    PAD_LSTICK_X    = 0, // -1 left to 1 right
-    PAD_LSTICK_Y    = 1, // 1 down to -1 up
-    PAD_RSTICK_X    = 4, // -1 left to 1 right
-    PAD_RSTICK_Y    = 3, // 1 down to -1 up
-    PAD_DPAD_X      = 5, // -1 left or 1 right
-    PAD_DPAD_Y      = 6, // 1 down or -1 up
+    PAD_LSTICK_X    = 0,    // -1 left to 1 right
+    PAD_LSTICK_Y    = 1,    // 1 down to -1 up
+    PAD_RSTICK_X    = 4,    // -1 left to 1 right
+    PAD_RSTICK_Y    = 3,    // 1 down to -1 up
+
+    // TODO: The following axes are handled differently on PS3 and 360 controllers
+    PAD_L2R2        = 2,    // 0 to 1
+    PAD_DPAD_X      = 5,    // -1 left or 1 right
+    PAD_DPAD_Y      = 6,    // 1 down or -1 up
 #endif
 };
     
@@ -93,6 +94,7 @@ public:
     virtual ~Input(){}
     void Update(float dt);  // For continuous input
 
+    // cinder events
     bool KeyDown(ci::app::KeyEvent event);
     bool KeyUp(ci::app::KeyEvent event);
     bool MouseDown(ci::app::MouseEvent event);
@@ -104,25 +106,16 @@ public:
     bool TouchesEnded(ci::app::TouchEvent event);
 
     // joystick events
-    static void onButtonDown(struct Gamepad_device * device, unsigned int buttonID, double timestamp, void * context);
-    static void onButtonUp(struct Gamepad_device * device, unsigned int buttonID, double timestamp, void * context);
-    static void onAxisMoved(struct Gamepad_device * device, unsigned int axisID, float value, float lastValue, double timestamp, void * context);
-    static void onDeviceAttached(struct Gamepad_device * device, void * context);
-    static void onDeviceRemoved(struct Gamepad_device * device, void * context);
-
-    static std::map<unsigned int, Input*> gamepadDeviceMap;
-
-    InputKeyState m_keyState;
-
-    // TODO: should be private
-    Player*     m_pPlayer;
-    void Shoot();
+    static void ButtonDown(struct Gamepad_device * device, unsigned int buttonID, double timestamp, void * context);
+    static void ButtonUp(struct Gamepad_device * device, unsigned int buttonID, double timestamp, void * context);
+    static void AxisMoved(struct Gamepad_device * device, unsigned int axisID, float value, float lastValue, double timestamp, void * context);
+    static void DeviceAttached(struct Gamepad_device * device, void * context);
+    static void DeviceRemoved(struct Gamepad_device * device, void * context);
     
 private:
-    bool        m_selectState;
-    float       m_selectStart;
-    ci::Vec2i   m_selectPos;
-    float       m_timeTap;
+    static std::map<unsigned int, Input*> s_gamepadDeviceMap;
+    InputKeyState   m_keyState;
+    Player*         m_pPlayer;
 };
 
 }

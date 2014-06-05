@@ -14,21 +14,21 @@ public:
 	void OnLostDevice();
 	void OnResetDevice();
 
-	void addVertices(unsigned int n);
-	void subVertices(unsigned int n);
-	void addTriangles(unsigned int n);
-	void subTriangles(unsigned int n);
-    void addRigidBodies(unsigned int n);
-	void subRigidBodies(unsigned int n);
+	void AddVertices(unsigned int n);
+	void SubVertices(unsigned int n);
+	void AddTriangles(unsigned int n);
+	void SubTriangles(unsigned int n);
+    void AddRigidBodies(unsigned int n);
+	void SubRigidBodies(unsigned int n);
 
-    void setCursorPosition(float x, float y);
-	void setTriCount(unsigned int n);
-	void setVertexCount(unsigned int n);
-    void setRigidBodyCount(unsigned int n);
+    void SetCursorPosition(float x, float y);
+	void SetTriCount(unsigned int n);
+	void SetVertexCount(unsigned int n);
+    void SetRigidBodyCount(unsigned int n);
 
-	void updateFPS(float dt);
-    void updateUPS(float dt);
-    void display();
+	void UpdateFPS(float dt);
+    void UpdateUPS(float dt);
+    void Display();
 
 
 	float m_FPS;
@@ -38,18 +38,16 @@ private:
 	// Prevent copying
 	Stats(const Stats& rhs);
 	Stats& operator=(const Stats& rhs);
-	
-private:
 
-	ci::gl::TextureFontRef  m_TextFont;
-    ci::Rectf               m_TextBoundsRect;
-	float m_MilliSecPerFrame;
-    float m_MilliSecPerUpdate;
-	unsigned int m_NumTris;
-	unsigned int m_NumVertices;
-    unsigned int m_NumRigidBodies;
-    float m_CursorX;
-    float m_CursorY;
+	ci::gl::TextureFontRef  m_textFont;
+    ci::Rectf               m_textBoundsRect;
+	float                   m_milliSecPerFrame;
+    float                   m_milliSecPerUpdate;
+	unsigned int            m_numTris;
+	unsigned int            m_numVertices;
+    unsigned int            m_numRigidBodies;
+    float                   m_cursorX;
+    float                   m_cursorY;
 };
     
 }

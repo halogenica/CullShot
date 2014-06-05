@@ -9,166 +9,13 @@
 
 using namespace ci;
 
-std::map<unsigned int, gen::Input*> gen::Input::gamepadDeviceMap;
-
-/**************************************
-Gamepad code
-**************************************/
-#ifdef DEBUG
-bool verbose = true;
-#else
-bool verbose = false;
-#endif
-
-void gen::Input::onButtonDown(struct Gamepad_device * device, unsigned int buttonID, double timestamp, void * context) 
-{
-	if (verbose) 
-    {
-        console() << "Button " << buttonID << " down on device " << device->deviceID << " at " << timestamp << " with context " << context << std::endl;
-	}
-
-    gen::Input* pPlayerInput = NULL;
-    pPlayerInput = gamepadDeviceMap[device->deviceID];
-
-    if (pPlayerInput)
-    {
-        if (g_pObjectManager->m_gameState == TITLE)
-        {
-            if (buttonID == PAD_A)
-            {
-                g_pObjectManager->m_gameState = RULES;
-            }
-        }
-        else if (g_pObjectManager->m_gameState == RULES)
-        {
-            if (buttonID == PAD_A)
-            {
-                g_pObjectManager->m_gameState = PLAYING;
-                g_pObjectManager->Restart();
-            }
-        }
-        else if (g_pObjectManager->m_gameState == PLAYING)
-        {
-            if (buttonID == PAD_A)
-            {
-                pPlayerInput->m_pPlayer->m_charging = true;
-            }
-            if (buttonID == PAD_X)
-            {
-                g_pObjectManager->m_pWorld->Score();
-            }
-        }
-        else if (g_pObjectManager->m_gameState == GAME_OVER)
-        {
-            if (buttonID == PAD_A)
-            {
-                if (g_pObjectManager->m_gameoverTimer <= 0)
-                {
-                    g_pObjectManager->m_gameState = PLAYING;
-                    g_pObjectManager->Restart();
-                }
-            }
-        }
-    }
-}
-
-void gen::Input::onButtonUp(struct Gamepad_device * device, unsigned int buttonID, double timestamp, void * context) 
-{
-	if (verbose) 
-    {
-        console() << "Button " << buttonID << " up on device " << device->deviceID << " at " << timestamp << " with context " << context << std::endl;
-	}
-
-    gen::Input* pPlayerInput = NULL;
-    pPlayerInput = gamepadDeviceMap[device->deviceID];
-
-    if (pPlayerInput)
-    {
-        if (g_pObjectManager->m_gameState == PLAYING)
-        {
-            if (buttonID == PAD_A)
-            {
-                pPlayerInput->m_pPlayer->m_charging = false;
-                pPlayerInput->m_pPlayer->Shoot();
-            }
-        }
-    }
-}
-
-void gen::Input::onAxisMoved(struct Gamepad_device * device, unsigned int axisID, float value, float lastValue, double timestamp, void * context) 
-{
-	if (verbose && axisID < 38)
-    {
-        if (value <= -0.3f || value >= 0.3f)
-        {
-        console() << "Axis " << axisID << " moved from " << lastValue <<" to " << value << " on device " << device->deviceID << " at " << timestamp << " with context " << context << std::endl;
-        }
-	}
-
-    gen::Input* pPlayerInput = NULL;
-    pPlayerInput = gamepadDeviceMap[device->deviceID];
-
-    if (pPlayerInput)
-    {
-        if (g_pObjectManager->m_gameState == PLAYING)
-        {
-            if (axisID == PAD_LSTICK_X)
-            {
-                if (value <= -0.2f)
-                {
-                    pPlayerInput->m_pPlayer->m_pShip->m_pPhysicsData->m_pBtRigidBody->setAngularVelocity(btVector3(0, 0, value * -5));
-                }
-                else if (value >= 0.2)
-                {
-                    pPlayerInput->m_pPlayer->m_pShip->m_pPhysicsData->m_pBtRigidBody->setAngularVelocity(btVector3(0, 0, value * -5));
-                }
-                else
-                {
-                    pPlayerInput->m_pPlayer->m_pShip->m_pPhysicsData->m_pBtRigidBody->setAngularVelocity(btVector3(0,0,0));
-                }
-            }
-        }
-    }
-}
-
-void gen::Input::onDeviceAttached(struct Gamepad_device * device, void * context) 
-{
-	if (verbose) 
-    {
-        console() << "Device ID " << device->deviceID << " attached (vendor = " << device->vendorID <<"; product = " << device->productID << ") with context" << context << std::endl;
-    }
-
-    if (gamepadDeviceMap.size() == 0)
-    {
-        // g_pInputP1 is initialized by default
-        gamepadDeviceMap[device->deviceID] = g_pInputP1;
-    }
-    else if (gamepadDeviceMap.size() == 1)
-    {
-        // g_pInputP2 is initialized by default
-        gamepadDeviceMap[device->deviceID] = g_pInputP2;
-    }
-    else
-    {
-        ci::app::console() << "Only 2 players are supported!" << std::endl;
-    }
-}
-
-void gen::Input::onDeviceRemoved(struct Gamepad_device * device, void * context) 
-{
-	if (verbose) 
-    {
-        console() << "Device ID " << device->deviceID << " removed with context " << context << std::endl;
-	}
-    // TODO : put gamepad/input delete here?
-}
-
-
-gen::Input::Input(Player* pPlayer) : m_pPlayer(pPlayer), m_keyState(), m_selectState(false), m_selectStart(0.0f), m_selectPos(0,0), m_timeTap(0)
-{
-}
-
 #define POLL_ITERATION_INTERVAL 10
+
+std::map<unsigned int, gen::Input*> gen::Input::s_gamepadDeviceMap;
+
+gen::Input::Input(Player* pPlayer) : m_pPlayer(pPlayer), m_keyState()
+{
+}
 
 void gen::Input::Update(float dt)
 {
@@ -211,6 +58,7 @@ bool gen::Input::KeyDown(ci::app::KeyEvent event)
     bool retval1 = true;
     bool retval2 = true;
 
+    // Handle special input regardless of state
     switch (key)
     {
 #ifdef DEBUG
@@ -256,10 +104,14 @@ bool gen::Input::KeyDown(ci::app::KeyEvent event)
         case KEY_TOGGLE_MUSIC:
             g_pObjectManager->m_loopPlaytime = g_pObjectManager->m_bgTrackLength;   // trick audio to think it's overdue for play
             g_pObjectManager->m_playMusic = !g_pObjectManager->m_playMusic;
-            alSourceStop(g_pObjectManager->m_bgm1_sources.back());
-            alSourceStop(g_pObjectManager->m_bgm2_sources.back());
-            alSourceStop(g_pObjectManager->m_bgm3_sources.back());
-            alSourceStop(g_pObjectManager->m_bgm4_sources.back());
+#if CI_AUDIO
+            // TODO: how to stop cinder audio playback?
+#elif AL_AUDIO
+            g_pObjectManager->m_pBgm1->Stop();
+            g_pObjectManager->m_pBgm2->Stop();
+            g_pObjectManager->m_pBgm3->Stop();
+            g_pObjectManager->m_pBgm4->Stop();
+#endif
             break;
 
         case ci::app::KeyEvent::KEY_ESCAPE:
@@ -271,6 +123,7 @@ bool gen::Input::KeyDown(ci::app::KeyEvent event)
             break;
     }
 
+    // Handle input depending on state
     if (g_pObjectManager->m_gameState == TITLE)
     {
         if (key == KEY_SHOOT)
@@ -331,12 +184,13 @@ bool gen::Input::KeyDown(ci::app::KeyEvent event)
         }
     }
 
-    return (retval1 || retval2);    // the input was handled
+    return (retval1 || retval2);    // was the input handled
 }
 
 bool gen::Input::KeyUp(ci::app::KeyEvent event)
 {
     bool retval = true;
+
     switch (event.getCode())
     {
         case KEY_MOVE_LEFT_P1:
@@ -356,6 +210,7 @@ bool gen::Input::KeyUp(ci::app::KeyEvent event)
             retval = false;   // the input was not handled
             break;
     }
+
     if (g_pInputP1->m_keyState.MOVE_LEFT_STATE == true)
     {
         g_pInputP1->m_pPlayer->m_pShip->m_pPhysicsData->m_pBtRigidBody->setAngularVelocity(btVector3(0, 0, 5));
@@ -368,7 +223,6 @@ bool gen::Input::KeyUp(ci::app::KeyEvent event)
     {
         g_pInputP1->m_pPlayer->m_pShip->m_pPhysicsData->m_pBtRigidBody->setAngularVelocity(btVector3(0,0,0));
     }
-
 
     return retval;
 }
@@ -406,4 +260,153 @@ bool gen::Input::TouchesMoved(ci::app::TouchEvent event)
 bool gen::Input::TouchesEnded(ci::app::TouchEvent event)
 {
     return false;
+}
+
+/**************************************
+Gamepad code
+**************************************/
+#ifdef DEBUG
+bool verbose = true;
+#else
+bool verbose = false;
+#endif
+
+void gen::Input::ButtonDown(struct Gamepad_device * device, unsigned int buttonID, double timestamp, void * context) 
+{
+	if (verbose) 
+    {
+        console() << "Button " << buttonID << " down on device " << device->deviceID << " at " << timestamp << " with context " << context << std::endl;
+	}
+
+    gen::Input* pPlayerInput = NULL;
+    pPlayerInput = s_gamepadDeviceMap[device->deviceID];
+
+    if (pPlayerInput)
+    {
+        if (g_pObjectManager->m_gameState == TITLE)
+        {
+            if (buttonID == PAD_A)
+            {
+                g_pObjectManager->m_gameState = RULES;
+            }
+        }
+        else if (g_pObjectManager->m_gameState == RULES)
+        {
+            if (buttonID == PAD_A)
+            {
+                g_pObjectManager->m_gameState = PLAYING;
+                g_pObjectManager->Restart();
+            }
+        }
+        else if (g_pObjectManager->m_gameState == PLAYING)
+        {
+            if (buttonID == PAD_A)
+            {
+                pPlayerInput->m_pPlayer->m_charging = true;
+            }
+            if (buttonID == PAD_X)
+            {
+                g_pObjectManager->m_pWorld->Score();
+            }
+        }
+        else if (g_pObjectManager->m_gameState == GAME_OVER)
+        {
+            if (buttonID == PAD_A)
+            {
+                if (g_pObjectManager->m_gameoverTimer <= 0)
+                {
+                    g_pObjectManager->m_gameState = PLAYING;
+                    g_pObjectManager->Restart();
+                }
+            }
+        }
+    }
+}
+
+void gen::Input::ButtonUp(struct Gamepad_device * device, unsigned int buttonID, double timestamp, void * context) 
+{
+	if (verbose) 
+    {
+        console() << "Button " << buttonID << " up on device " << device->deviceID << " at " << timestamp << " with context " << context << std::endl;
+	}
+
+    gen::Input* pPlayerInput = NULL;
+    pPlayerInput = s_gamepadDeviceMap[device->deviceID];
+
+    if (pPlayerInput)
+    {
+        if (g_pObjectManager->m_gameState == PLAYING)
+        {
+            if (buttonID == PAD_A)
+            {
+                pPlayerInput->m_pPlayer->m_charging = false;
+                pPlayerInput->m_pPlayer->Shoot();
+            }
+        }
+    }
+}
+
+void gen::Input::AxisMoved(struct Gamepad_device * device, unsigned int axisID, float value, float lastValue, double timestamp, void * context) 
+{
+	if (verbose && axisID < 38) // PS3 controllers register motion sensors as axes starting around 38, so mute them
+    {
+        if (value <= -0.3f || value >= 0.3f)
+        {
+        console() << "Axis " << axisID << " moved from " << lastValue <<" to " << value << " on device " << device->deviceID << " at " << timestamp << " with context " << context << std::endl;
+        }
+	}
+
+    gen::Input* pPlayerInput = NULL;
+    pPlayerInput = s_gamepadDeviceMap[device->deviceID];
+
+    if (pPlayerInput)
+    {
+        if (g_pObjectManager->m_gameState == PLAYING)
+        {
+            if (axisID == PAD_LSTICK_X)
+            {
+                if (value <= -0.2f)
+                {
+                    pPlayerInput->m_pPlayer->m_pShip->m_pPhysicsData->m_pBtRigidBody->setAngularVelocity(btVector3(0, 0, value * -5));
+                }
+                else if (value >= 0.2)
+                {
+                    pPlayerInput->m_pPlayer->m_pShip->m_pPhysicsData->m_pBtRigidBody->setAngularVelocity(btVector3(0, 0, value * -5));
+                }
+                else
+                {
+                    pPlayerInput->m_pPlayer->m_pShip->m_pPhysicsData->m_pBtRigidBody->setAngularVelocity(btVector3(0,0,0));
+                }
+            }
+        }
+    }
+}
+
+void gen::Input::DeviceAttached(struct Gamepad_device * device, void * context) 
+{
+	if (verbose) 
+    {
+        console() << "Device ID " << device->deviceID << " attached (vendor = " << device->vendorID <<"; product = " << device->productID << ") with context" << context << std::endl;
+    }
+
+    if (s_gamepadDeviceMap.size() == 0)
+    {
+        s_gamepadDeviceMap[device->deviceID] = g_pInputP1;
+    }
+    else if (s_gamepadDeviceMap.size() == 1)
+    {
+        s_gamepadDeviceMap[device->deviceID] = g_pInputP2;
+    }
+    else
+    {
+        ci::app::console() << "Only 2 players are supported!" << std::endl;
+    }
+}
+
+void gen::Input::DeviceRemoved(struct Gamepad_device * device, void * context) 
+{
+	if (verbose) 
+    {
+        console() << "Device ID " << device->deviceID << " removed with context " << context << std::endl;
+	}
 }

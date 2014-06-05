@@ -9,11 +9,9 @@
 #include "Game/PlayerCam.h"
 #include "Particles/Particle.h"
 #include "Particles/SquareParticle.h"
-#include <sstream>
 
 using namespace gen;
 using namespace ci;
-using namespace ci::app;
 
 ObjectManager::ObjectManager()
 {
@@ -78,21 +76,11 @@ ObjectManager::ObjectManager()
     m_bgm2 = ci::audio::load(ci::app::loadResource(RES_BGM2_SOUND));
     m_bgm3 = ci::audio::load(ci::app::loadResource(RES_BGM3_SOUND));
     m_bgm4 = ci::audio::load(ci::app::loadResource(RES_BGM4_SOUND));
-#elif CI_AUDIO2
-    m_bgm1 = audio2::Voice::create(audio2::load(loadResource(RES_BGM1_SOUND)));
-    m_bgm2 = audio2::Voice::create(audio2::load(loadResource(RES_BGM2_SOUND)));
-    m_bgm3 = audio2::Voice::create(audio2::load(loadResource(RES_BGM3_SOUND)));
-    m_bgm4 = audio2::Voice::create(audio2::load(loadResource(RES_BGM4_SOUND)));
 #elif AL_AUDIO
-    m_bgm1_buffer = OpenAL::CreateBuffer(ci::app::loadResource(RES_BGM1_SOUND));
-    m_bgm2_buffer = OpenAL::CreateBuffer(ci::app::loadResource(RES_BGM2_SOUND));
-    m_bgm3_buffer = OpenAL::CreateBuffer(ci::app::loadResource(RES_BGM3_SOUND));
-    m_bgm4_buffer = OpenAL::CreateBuffer(ci::app::loadResource(RES_BGM4_SOUND));
-
-    m_bgm1_sources.push_back(OpenAL::CreateSource(m_bgm1_buffer));
-    m_bgm2_sources.push_back(OpenAL::CreateSource(m_bgm2_buffer));
-    m_bgm3_sources.push_back(OpenAL::CreateSource(m_bgm3_buffer));
-    m_bgm4_sources.push_back(OpenAL::CreateSource(m_bgm4_buffer));
+    m_pBgm1 = new OpenAL::Sound(ci::app::loadResource(RES_BGM1_SOUND));
+    m_pBgm2 = new OpenAL::Sound(ci::app::loadResource(RES_BGM2_SOUND));
+    m_pBgm3 = new OpenAL::Sound(ci::app::loadResource(RES_BGM3_SOUND));
+    m_pBgm4 = new OpenAL::Sound(ci::app::loadResource(RES_BGM4_SOUND));
 #endif
 
     // Load font for score
@@ -131,16 +119,11 @@ ObjectManager::~ObjectManager()
     delete m_pWorld;
     delete m_pCamera;
 #if CI_AUDIO
-#elif CI_AUDIO2
-    m_bgm1->stop();
-    m_bgm2->stop();
-    m_bgm3->stop();
-    m_bgm4->stop();
 #elif AL_AUDIO
-    alDeleteSources(m_bgm1_sources.size(), &m_bgm1_sources[0]);
-    alDeleteSources(m_bgm2_sources.size(), &m_bgm2_sources[0]);
-    alDeleteSources(m_bgm3_sources.size(), &m_bgm3_sources[0]);
-    alDeleteSources(m_bgm4_sources.size(), &m_bgm4_sources[0]);
+    delete m_pBgm1;
+    delete m_pBgm2;
+    delete m_pBgm3;
+    delete m_pBgm4;
 #endif
 }
 
@@ -177,57 +160,24 @@ void ObjectManager::UpdateSoundTimer(float dt)
             {
 #if CI_AUDIO
                 ci::audio::Output::play(m_bgm1);
-#elif CI_AUDIO2
-                m_bgm1->stop();
-                m_bgm1->play();
 #elif AL_AUDIO
-                ALenum state;
-                ALuint source = m_bgm1_sources.back();
-                alGetSourcei(source, AL_SOURCE_STATE, &state);
-                if (state == AL_PLAYING)
-                {
-                    source = OpenAL::CreateSource(m_bgm1_buffer);
-                    m_bgm1_sources.push_back(source);
-                }
-                alSourcePlay(source);
+                m_pBgm1->Play();
 #endif
             }
             else if (m_gameState == RULES)
             {
 #if CI_AUDIO
                 ci::audio::Output::play(m_bgm2);
-#elif CI_AUDIO2
-                m_bgm2->stop();
-                m_bgm2->play();
 #elif AL_AUDIO
-                ALenum state;
-                ALuint source = m_bgm2_sources.back();
-                alGetSourcei(source, AL_SOURCE_STATE, &state);
-                if (state == AL_PLAYING)
-                {
-                    source = OpenAL::CreateSource(m_bgm2_buffer);
-                    m_bgm2_sources.push_back(source);
-                }
-                alSourcePlay(source);
+                m_pBgm2->Play();
 #endif
             }
             else if (m_gameState == PLAYING || m_gameState == GAME_OVER)
             {
 #if CI_AUDIO
                 ci::audio::Output::play(m_bgm4);
-#elif CI_AUDIO2
-                m_bgm4->stop();
-                m_bgm4->play();
 #elif AL_AUDIO
-                ALenum state;
-                ALuint source = m_bgm4_sources.back();
-                alGetSourcei(source, AL_SOURCE_STATE, &state);
-                if (state == AL_PLAYING)
-                {
-                    source = OpenAL::CreateSource(m_bgm4_buffer);
-                    m_bgm4_sources.push_back(source);
-                }
-                alSourcePlay(source);
+                m_pBgm4->Play();
 #endif
             }
         }
@@ -451,7 +401,7 @@ void ObjectManager::Draw()
     // Draw statistics
     if (m_displayStats)
     {
-        g_pStats->display();
+        g_pStats->Display();
     }
 
     // Draw gui

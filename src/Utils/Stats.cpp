@@ -2,8 +2,6 @@
 #include "System/ObjectManager.h"
 #include "Utils/Stats.h"
 
-#include <sstream>
-
 #define STRINGIFY( name ) # name
 
 const char* gameStateNames [] =
@@ -19,11 +17,11 @@ using namespace std;
 using namespace gen;
 
 Stats::Stats()
-: m_FPS(0.0f), m_UPS(0.0f), m_MilliSecPerFrame(0.0f), m_NumTris(0), m_NumVertices(0), m_NumRigidBodies(0), m_CursorX(0), m_CursorY(0)
+: m_FPS(0.0f), m_UPS(0.0f), m_milliSecPerFrame(0.0f), m_numTris(0), m_numVertices(0), m_numRigidBodies(0), m_cursorX(0), m_cursorY(0)
 {
     ASSERT(NUM_GAME_STATES == (sizeof(gameStateNames) / sizeof (gameStateNames[0])));
-    m_TextFont = ci::gl::TextureFont::create(ci::Font(ci::app::loadResource(RES_STATS_FONT), 24)); // pf_tempesta_seven.ttf has problems with new line
-    m_TextBoundsRect = ci::Rectf(40, m_TextFont->getAscent() + 20, getWindowWidth(), getWindowHeight());
+    m_textFont = ci::gl::TextureFont::create(ci::Font(ci::app::loadResource(RES_STATS_FONT), 24)); // pf_tempesta_seven.ttf has problems with new line
+    m_textBoundsRect = ci::Rectf(40.f, m_textFont->getAscent() + 20.f, getWindowWidth(), getWindowHeight());
 }
 
 Stats::~Stats()
@@ -38,19 +36,18 @@ void Stats::OnResetDevice()
 {
 }
 
-void Stats::addVertices(unsigned int n)         {m_NumVertices += n;     }
-void Stats::subVertices(unsigned int n)         {m_NumVertices -= n;     }
-void Stats::addTriangles(unsigned int n)        {m_NumTris += n;         }
-void Stats::subTriangles(unsigned int n)        {m_NumTris -= n;         }
-void Stats::addRigidBodies(unsigned int n)      {m_NumRigidBodies += n;  }
-void Stats::subRigidBodies(unsigned int n)      {m_NumRigidBodies -= n;  }
-void Stats::setTriCount(unsigned int n)         {m_NumTris = n;          }
-void Stats::setVertexCount(unsigned int n)      {m_NumVertices = n;      }
-void Stats::setRigidBodyCount(unsigned int n)   {m_NumRigidBodies = n;   }
+void Stats::AddVertices(unsigned int n)         {m_numVertices += n;            }
+void Stats::SubVertices(unsigned int n)         {m_numVertices -= n;            }
+void Stats::AddTriangles(unsigned int n)        {m_numTris += n;                }
+void Stats::SubTriangles(unsigned int n)        {m_numTris -= n;                }
+void Stats::AddRigidBodies(unsigned int n)      {m_numRigidBodies += n;         }
+void Stats::SubRigidBodies(unsigned int n)      {m_numRigidBodies -= n;         }
+void Stats::SetTriCount(unsigned int n)         {m_numTris = n;                 }
+void Stats::SetVertexCount(unsigned int n)      {m_numVertices = n;             }
+void Stats::SetRigidBodyCount(unsigned int n)   {m_numRigidBodies = n;          }
+void Stats::SetCursorPosition(float x, float y) {m_cursorX = x; m_cursorY = y;  }
 
-void Stats::setCursorPosition(float x, float y) {m_CursorX = x; m_CursorY = y;}
-
-void Stats::updateFPS(float dt)
+void Stats::UpdateFPS(float dt)
 {
 	// Make static so that their values persist accross function calls.
 	static float numFrames   = 0.0f;
@@ -74,7 +71,7 @@ void Stats::updateFPS(float dt)
 		m_FPS = numFrames;
 
 		// Average time, in miliseconds, it took to render a single frame.
-		m_MilliSecPerFrame = 1000.0f / m_FPS;
+		m_milliSecPerFrame = 1000.0f / m_FPS;
 
 		// Reset time counter and frame count to prepare for computing
 		// the average stats over the next second.
@@ -83,7 +80,7 @@ void Stats::updateFPS(float dt)
 	}
 }
 
-void Stats::updateUPS(float dt)
+void Stats::UpdateUPS(float dt)
 {
 	// Make static so that their values persist accross function calls.
 	static float numUpdates  = 0.0f;
@@ -107,7 +104,7 @@ void Stats::updateUPS(float dt)
 		m_UPS = numUpdates;
 
 		// Average time, in miliseconds, it took to render a single frame.
-		m_MilliSecPerUpdate = 1000.0f / m_UPS;
+		m_milliSecPerUpdate = 1000.0f / m_UPS;
 
 		// Reset time counter and frame count to prepare for computing
 		// the average stats over the next second.
@@ -116,15 +113,15 @@ void Stats::updateUPS(float dt)
 	}
 }
 
-void Stats::display()
+void Stats::Display()
 {
     stringstream displayString;
     displayString << "Frames Per Second: "  << setiosflags(ios::fixed) << setprecision(2) << m_FPS << endl;
     displayString << "Updates Per Second: " << setiosflags(ios::fixed) << setprecision(2) << m_UPS << endl;
-    displayString << "Ms Per Frame: "       << setiosflags(ios::fixed) << setprecision(4) << m_MilliSecPerFrame << endl;
-    displayString << "Triangle Count: "     << m_NumTris << endl;
-    displayString << "Vertex Count: "       << m_NumVertices << endl;
-    displayString << "Rigid Bodies: "       << m_NumRigidBodies << endl;
+    displayString << "Ms Per Frame: "       << setiosflags(ios::fixed) << setprecision(4) << m_milliSecPerFrame << endl;
+    displayString << "Triangle Count: "     << m_numTris << endl;
+    displayString << "Vertex Count: "       << m_numVertices << endl;
+    displayString << "Rigid Bodies: "       << m_numRigidBodies << endl;
     displayString << "Game State: "         << gameStateNames[g_pObjectManager->m_gameState] << endl;
     
     gl::pushMatrices();
@@ -134,7 +131,7 @@ void Stats::display()
     gl::enableAlphaBlending();
 
     ci::gl::color(Color::white());
-    m_TextFont->drawStringWrapped(displayString.str(), m_TextBoundsRect, ci::Vec2f(0,0));
+    m_textFont->drawStringWrapped(displayString.str(), m_textBoundsRect, ci::Vec2f(0,0));
 
     gl::disableAlphaBlending();
     gl::enableDepthRead();

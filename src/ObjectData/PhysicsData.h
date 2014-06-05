@@ -1,7 +1,6 @@
 #pragma once
 
 #include "System/Common.h"
-#include "btBulletDynamicsCommon.h"
 
 namespace gen
 {
@@ -14,7 +13,6 @@ class PhysicsData
 friend class ObjectData;    // ObjectData will call private function Initialize()
 
 public:
-
     // Constructors and Destructors
     PhysicsData(btCollisionShape* pBtCollisionShape, btScalar mass, short collisionGroup = 0, short collisionMask = 0);
     ~PhysicsData();

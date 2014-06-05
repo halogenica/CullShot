@@ -28,8 +28,8 @@ gen::RenderData::RenderData(const ci::DataSourceRef& mesh,
         m_tex.setMagFilter(GL_NEAREST);
     }
     
-    g_pStats->addVertices(m_mesh.getNumVertices());
-    g_pStats->addTriangles(m_mesh.getNumTriangles());
+    g_pStats->AddVertices(m_mesh.getNumVertices());
+    g_pStats->AddTriangles(m_mesh.getNumTriangles());
 }
 
 gen::RenderData::RenderData(const ci::DataSourceRef& mesh,
@@ -46,8 +46,8 @@ gen::RenderData::RenderData(const ci::DataSourceRef& mesh,
     ci::ObjLoader loader(mesh);
     loader.load(&m_mesh);
 
-    g_pStats->addVertices(m_mesh.getNumVertices());
-    g_pStats->addTriangles(m_mesh.getNumTriangles());
+    g_pStats->AddVertices(m_mesh.getNumVertices());
+    g_pStats->AddTriangles(m_mesh.getNumTriangles());
 }
 
 gen::RenderData::RenderData(const ci::DataSourceRef& mesh,
@@ -66,14 +66,14 @@ gen::RenderData::RenderData(const ci::DataSourceRef& mesh,
     ci::ObjLoader loader(mesh);
     loader.load(&m_mesh);
 
-    g_pStats->addVertices(m_mesh.getNumVertices());
-    g_pStats->addTriangles(m_mesh.getNumTriangles());
+    g_pStats->AddVertices(m_mesh.getNumVertices());
+    g_pStats->AddTriangles(m_mesh.getNumTriangles());
 }
 
 gen::RenderData::~RenderData()
 {
-    g_pStats->subVertices(m_mesh.getNumVertices());
-    g_pStats->subTriangles(m_mesh.getNumTriangles());
+    g_pStats->SubVertices(m_mesh.getNumVertices());
+    g_pStats->SubTriangles(m_mesh.getNumTriangles());
 }
 
 void gen::RenderData::Draw(const ci::Vec3f& pos, const ci::Quatf& rot, const ci::Vec3f& scale)

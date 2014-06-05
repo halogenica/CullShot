@@ -11,7 +11,6 @@ class SpriteSheet;
 class RenderData
 {
 public:
-    
     RenderData(const ci::DataSourceRef& mesh,
                const ci::ColorA&        color = ci::ColorA(1.0f, 1.0f, 1.0f, 1.0f),
                const ci::DataSourceRef& tex = ci::DataSourceRef());
@@ -20,7 +19,7 @@ public:
                SpriteSheet* spriteSheet,
                const UINT index = 0);
 
-        RenderData(const ci::DataSourceRef& mesh,
+    RenderData(const ci::DataSourceRef& mesh,
                SpriteSheet* spriteSheet,
                const ci::Vec2i spriteRange,
                float secondsPerSprite = 1.0f,

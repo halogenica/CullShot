@@ -4,7 +4,6 @@
 #include "ObjectData/ObjectData.h"
 #include "ObjectData/RenderData.h"
 #include "ObjectData/PhysicsData.h"
-#include <deque>
 
 namespace gen
 {
@@ -127,14 +126,9 @@ private:
 #if CI_AUDIO
     ci::audio::SourceRef m_sfx_charge;
     ci::audio::SourceRef m_sfx_shoot;
-#elif CI_AUDIO2
-    ci::audio2::VoiceRef m_sfx_charge;
-    ci::audio2::VoiceRef m_sfx_shoot;
 #elif AL_AUDIO
-    ALuint m_sfx_charge_buffer;
-    ALuint m_sfx_shoot_buffer;
-    std::deque<ALuint> m_sfx_charge_sources;
-    std::deque<ALuint> m_sfx_shoot_sources;
+    OpenAL::Sound* m_pSfxCharge;
+    OpenAL::Sound* m_pSfxShoot;
  #endif
 };
 }

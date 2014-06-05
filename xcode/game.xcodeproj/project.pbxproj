@@ -285,19 +285,17 @@
 		1F1C505F167CB75500E99ECA /* game_mac-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F1C505E167CB75500E99ECA /* game_mac-Info.plist */; };
 		1F1D35C0172F8FBA008F4025 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F1D35BC172F8FBA008F4025 /* Player.cpp */; };
 		1F1D35C1172F8FBA008F4025 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F1D35BC172F8FBA008F4025 /* Player.cpp */; };
-		1F1D3653172F90A3008F4025 /* pf_tempesta_seven.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F1D360A172F90A2008F4025 /* pf_tempesta_seven.ttf */; };
-		1F1D3654172F90A3008F4025 /* pf_tempesta_seven.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F1D360A172F90A2008F4025 /* pf_tempesta_seven.ttf */; };
 		1F1D3699172F90A3008F4025 /* SimpleGUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F1D3652172F90A3008F4025 /* SimpleGUI.cpp */; };
 		1F1D369A172F90A3008F4025 /* SimpleGUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F1D3652172F90A3008F4025 /* SimpleGUI.cpp */; };
 		1F1D36DA1732598C008F4025 /* SpriteSheet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F1D36D81732598C008F4025 /* SpriteSheet.cpp */; };
 		1F1D36DB1732598C008F4025 /* SpriteSheet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F1D36D81732598C008F4025 /* SpriteSheet.cpp */; };
-		1F584D7318EAA243001B8FC5 /* OpenAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F584D7218EAA243001B8FC5 /* OpenAL.cpp */; };
-		1F584D7418EAA243001B8FC5 /* OpenAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F584D7218EAA243001B8FC5 /* OpenAL.cpp */; };
 		1F584D7818EAA563001B8FC5 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F584D7718EAA563001B8FC5 /* OpenAL.framework */; };
 		1F584D7B18EB114A001B8FC5 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F584D7A18EB114A001B8FC5 /* AppKit.framework */; };
 		1F584D7C18EB11C3001B8FC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F3A2665160C3F4B003E5C07 /* Foundation.framework */; };
 		1F584D7E18EB12A8001B8FC5 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F584D7D18EB12A8001B8FC5 /* CoreFoundation.framework */; };
 		1F584D8018EB148A001B8FC5 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F584D7F18EB148A001B8FC5 /* IOKit.framework */; };
+		1F797F6919380A1400E9388B /* OpenAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F797F6819380A1400E9388B /* OpenAL.cpp */; };
+		1F797F6A19380A1400E9388B /* OpenAL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F797F6819380A1400E9388B /* OpenAL.cpp */; };
 		1F7B7C2018657C570071D552 /* credits.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F7B7C0718657C570071D552 /* credits.png */; };
 		1F7B7C2118657C570071D552 /* credits.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F7B7C0718657C570071D552 /* credits.png */; };
 		1F7B7C2418657C570071D552 /* cube.obj in Resources */ = {isa = PBXBuildFile; fileRef = 1F7B7C0918657C570071D552 /* cube.obj */; };
@@ -410,6 +408,8 @@
 		1F84AED2191592FE00943C3B /* vert_flatshade.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 1F84AE81191592FE00943C3B /* vert_flatshade.glsl */; };
 		1F84AED3191592FE00943C3B /* vert_passthrough.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 1F84AE82191592FE00943C3B /* vert_passthrough.glsl */; };
 		1F84AED4191592FE00943C3B /* vert_passthrough.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 1F84AE82191592FE00943C3B /* vert_passthrough.glsl */; };
+		1F9F28E0192EC75200AFC778 /* pf_tempesta_seven.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F9F28DF192EC75200AFC778 /* pf_tempesta_seven.ttf */; };
+		1F9F28E1192EC75200AFC778 /* pf_tempesta_seven.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F9F28DF192EC75200AFC778 /* pf_tempesta_seven.ttf */; };
 		1FC463D116E8112900467D22 /* RenderData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FC463CF16E8112900467D22 /* RenderData.cpp */; };
 		1FC463D216E8112900467D22 /* RenderData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FC463CF16E8112900467D22 /* RenderData.cpp */; };
 		1FEE3597181A4BE500914D46 /* LineParticle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FEE3591181A4BE500914D46 /* LineParticle.cpp */; };
@@ -438,9 +438,8 @@
 		1F1C505E167CB75500E99ECA /* game_mac-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "game_mac-Info.plist"; sourceTree = "<group>"; };
 		1F1D35BC172F8FBA008F4025 /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
 		1F1D35BD172F8FBA008F4025 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
-		1F1D3608172F90A2008F4025 /* SimpleGUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleGUI.h; sourceTree = "<group>"; };
-		1F1D360A172F90A2008F4025 /* pf_tempesta_seven.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = pf_tempesta_seven.ttf; sourceTree = "<group>"; };
-		1F1D3652172F90A3008F4025 /* SimpleGUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleGUI.cpp; sourceTree = "<group>"; };
+		1F1D3608172F90A2008F4025 /* SimpleGUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimpleGUI.h; path = include/SimpleGUI.h; sourceTree = "<group>"; };
+		1F1D3652172F90A3008F4025 /* SimpleGUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SimpleGUI.cpp; path = src/SimpleGUI.cpp; sourceTree = "<group>"; };
 		1F1D36D81732598C008F4025 /* SpriteSheet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteSheet.cpp; sourceTree = "<group>"; };
 		1F1D36D91732598C008F4025 /* SpriteSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteSheet.h; sourceTree = "<group>"; };
 		1F2D32E416644A0A0001BABA /* btAxisSweep3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = btAxisSweep3.cpp; sourceTree = "<group>"; };
@@ -744,12 +743,12 @@
 		1F3A2667160C3F4B003E5C07 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		1F490BB11709278E00EA711C /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		1F490BB3170927AB00EA711C /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		1F584D7018EAA243001B8FC5 /* OpenAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenAL.h; sourceTree = "<group>"; };
-		1F584D7218EAA243001B8FC5 /* OpenAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenAL.cpp; sourceTree = "<group>"; };
+		1F584D7018EAA243001B8FC5 /* OpenAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenAL.h; path = include/OpenAL.h; sourceTree = "<group>"; };
 		1F584D7718EAA563001B8FC5 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		1F584D7A18EB114A001B8FC5 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/AppKit.framework; sourceTree = DEVELOPER_DIR; };
 		1F584D7D18EB12A8001B8FC5 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		1F584D7F18EB148A001B8FC5 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
+		1F797F6819380A1400E9388B /* OpenAL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OpenAL.cpp; path = src/OpenAL.cpp; sourceTree = "<group>"; };
 		1F7B7C0718657C570071D552 /* credits.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = credits.png; path = ../resources/credits.png; sourceTree = "<group>"; };
 		1F7B7C0918657C570071D552 /* cube.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = cube.obj; path = ../resources/cube.obj; sourceTree = "<group>"; };
 		1F7B7C0F18657C570071D552 /* ProFontWindows.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = ProFontWindows.ttf; path = ../resources/ProFontWindows.ttf; sourceTree = "<group>"; };
@@ -809,6 +808,7 @@
 		1F84AE80191592FD00943C3B /* ship.sib */ = {isa = PBXFileReference; lastKnownFileType = file; name = ship.sib; path = ../resources/ship.sib; sourceTree = "<group>"; };
 		1F84AE81191592FE00943C3B /* vert_flatshade.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = vert_flatshade.glsl; path = ../resources/vert_flatshade.glsl; sourceTree = "<group>"; };
 		1F84AE82191592FE00943C3B /* vert_passthrough.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = vert_passthrough.glsl; path = ../resources/vert_passthrough.glsl; sourceTree = "<group>"; };
+		1F9F28DF192EC75200AFC778 /* pf_tempesta_seven.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = pf_tempesta_seven.ttf; path = ../resources/pf_tempesta_seven.ttf; sourceTree = "<group>"; };
 		1FC463CF16E8112900467D22 /* RenderData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderData.cpp; sourceTree = "<group>"; };
 		1FC463D016E8112900467D22 /* RenderData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderData.h; sourceTree = "<group>"; };
 		1FC84FDE1621805500EF1954 /* App.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = App.cpp; sourceTree = "<group>"; };
@@ -842,7 +842,7 @@
 		1FEE3594181A4BE500914D46 /* Particle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Particle.h; sourceTree = "<group>"; };
 		1FEE3595181A4BE500914D46 /* SquareParticle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SquareParticle.cpp; sourceTree = "<group>"; };
 		1FEE3596181A4BE500914D46 /* SquareParticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SquareParticle.h; sourceTree = "<group>"; };
-		1FF9392A18F126EE001BA3AC /* Gamepad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gamepad.h; sourceTree = "<group>"; };
+		1FF9392A18F126EE001BA3AC /* Gamepad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Gamepad.h; path = include/Gamepad.h; sourceTree = "<group>"; };
 		1FF9392B18F12932001BA3AC /* libGamepad.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGamepad.a; path = ../../../libraries/cinder_0.8.6_dev/blocks/Gamepad/lib/macosx/libGamepad.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -893,6 +893,7 @@
 		1F053DFE1610D5BC00DCC2F2 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				1F9F28DF192EC75200AFC778 /* pf_tempesta_seven.ttf */,
 				1F84AE5A191592FD00943C3B /* bgm1.wav */,
 				1F84AE5B191592FD00943C3B /* bgm2.wav */,
 				1F84AE5C191592FD00943C3B /* bgm3.wav */,
@@ -995,53 +996,20 @@
 		1F1D35F8172F9076008F4025 /* Gamepad */ = {
 			isa = PBXGroup;
 			children = (
-				1F1D35F9172F9076008F4025 /* include */,
+				1FF9392A18F126EE001BA3AC /* Gamepad.h */,
 			);
 			name = Gamepad;
 			path = ../../../libraries/cinder_0.8.6_dev/blocks/Gamepad;
 			sourceTree = "<group>";
 		};
-		1F1D35F9172F9076008F4025 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				1FF9392A18F126EE001BA3AC /* Gamepad.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
 		1F1D3606172F90A2008F4025 /* SimpleGUI */ = {
 			isa = PBXGroup;
 			children = (
-				1F1D3607172F90A2008F4025 /* include */,
-				1F1D3609172F90A2008F4025 /* resources */,
-				1F1D3651172F90A3008F4025 /* src */,
+				1F1D3608172F90A2008F4025 /* SimpleGUI.h */,
+				1F1D3652172F90A3008F4025 /* SimpleGUI.cpp */,
 			);
 			name = SimpleGUI;
 			path = ../../../libraries/cinder_0.8.6_dev/blocks/SimpleGUI;
-			sourceTree = "<group>";
-		};
-		1F1D3607172F90A2008F4025 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				1F1D3608172F90A2008F4025 /* SimpleGUI.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		1F1D3609172F90A2008F4025 /* resources */ = {
-			isa = PBXGroup;
-			children = (
-				1F1D360A172F90A2008F4025 /* pf_tempesta_seven.ttf */,
-			);
-			path = resources;
-			sourceTree = "<group>";
-		};
-		1F1D3651172F90A3008F4025 /* src */ = {
-			isa = PBXGroup;
-			children = (
-				1F1D3652172F90A3008F4025 /* SimpleGUI.cpp */,
-			);
-			path = src;
 			sourceTree = "<group>";
 		};
 		1F2D32E216644A0A0001BABA /* BulletCollision */ = {
@@ -1487,27 +1455,11 @@
 		1F584D6E18EAA243001B8FC5 /* OpenAL */ = {
 			isa = PBXGroup;
 			children = (
-				1F584D6F18EAA243001B8FC5 /* include */,
-				1F584D7118EAA243001B8FC5 /* src */,
+				1F797F6819380A1400E9388B /* OpenAL.cpp */,
+				1F584D7018EAA243001B8FC5 /* OpenAL.h */,
 			);
 			name = OpenAL;
 			path = ../../../libraries/cinder_0.8.6_dev/blocks/OpenAL;
-			sourceTree = "<group>";
-		};
-		1F584D6F18EAA243001B8FC5 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				1F584D7018EAA243001B8FC5 /* OpenAL.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		1F584D7118EAA243001B8FC5 /* src */ = {
-			isa = PBXGroup;
-			children = (
-				1F584D7218EAA243001B8FC5 /* OpenAL.cpp */,
-			);
-			path = src;
 			sourceTree = "<group>";
 		};
 		1FC84FDD1621805500EF1954 /* App */ = {
@@ -1679,7 +1631,6 @@
 				1F84AECF191592FE00943C3B /* ship.sib in Resources */,
 				1F1C4EF4167C973C00E99ECA /* Default-568h@2x.png in Resources */,
 				1F1C505F167CB75500E99ECA /* game_mac-Info.plist in Resources */,
-				1F1D3653172F90A3008F4025 /* pf_tempesta_seven.ttf in Resources */,
 				1F84AE85191592FE00943C3B /* bgm2.wav in Resources */,
 				1F84AE9F191592FE00943C3B /* frag_diagonals2.glsl in Resources */,
 				1F84AEBF191592FE00943C3B /* sfx_score_hit.wav in Resources */,
@@ -1708,6 +1659,7 @@
 				1F84AEBB191592FE00943C3B /* screens.xcf in Resources */,
 				1F84AEAD191592FE00943C3B /* ring_dash.obj in Resources */,
 				1F84AEB5191592FE00943C3B /* ring_point.obj in Resources */,
+				1F9F28E0192EC75200AFC778 /* pf_tempesta_seven.ttf in Resources */,
 				1F84AECB191592FE00943C3B /* ship.mtl in Resources */,
 				1F7B7C4218657C570071D552 /* sphere.obj in Resources */,
 				1F7B7C4418657C570071D552 /* sprite_test.png in Resources */,
@@ -1748,7 +1700,7 @@
 				1F84AED2191592FE00943C3B /* vert_flatshade.glsl in Resources */,
 				1F84AED0191592FE00943C3B /* ship.sib in Resources */,
 				1F84AE9A191592FE00943C3B /* circle.obj in Resources */,
-				1F1D3654172F90A3008F4025 /* pf_tempesta_seven.ttf in Resources */,
+				1F9F28E1192EC75200AFC778 /* pf_tempesta_seven.ttf in Resources */,
 				1F7B7C2118657C570071D552 /* credits.png in Resources */,
 				1F7B7C2518657C570071D552 /* cube.obj in Resources */,
 				1F84AEB8191592FE00943C3B /* ring.mtl in Resources */,
@@ -1815,7 +1767,6 @@
 				1F1C4F07167C973C00E99ECA /* btDbvtBroadphase.cpp in Sources */,
 				1F1C4F08167C973C00E99ECA /* btDispatcher.cpp in Sources */,
 				1F1C4F09167C973C00E99ECA /* btMultiSapBroadphase.cpp in Sources */,
-				1F584D7318EAA243001B8FC5 /* OpenAL.cpp in Sources */,
 				1F1C4F0A167C973C00E99ECA /* btOverlappingPairCache.cpp in Sources */,
 				1F1C4F0B167C973C00E99ECA /* btQuantizedBvh.cpp in Sources */,
 				1F1C4F0C167C973C00E99ECA /* btSimpleBroadphase.cpp in Sources */,
@@ -1842,6 +1793,7 @@
 				1F1C4F21167C973C00E99ECA /* btSphereTriangleCollisionAlgorithm.cpp in Sources */,
 				1F1C4F22167C973C00E99ECA /* btUnionFind.cpp in Sources */,
 				1F1C4F23167C973C00E99ECA /* SphereTriangleDetector.cpp in Sources */,
+				1F797F6919380A1400E9388B /* OpenAL.cpp in Sources */,
 				1F1C4F24167C973C00E99ECA /* btBox2dShape.cpp in Sources */,
 				1F1C4F25167C973C00E99ECA /* btBoxShape.cpp in Sources */,
 				1F1C4F26167C973C00E99ECA /* btBvhTriangleMeshShape.cpp in Sources */,
@@ -1960,7 +1912,6 @@
 				1F1C4FE4167CA7ED00E99ECA /* btBox2dBox2dCollisionAlgorithm.cpp in Sources */,
 				1F1C4FE5167CA7ED00E99ECA /* btBoxBoxCollisionAlgorithm.cpp in Sources */,
 				1F1C4FE6167CA7ED00E99ECA /* btBoxBoxDetector.cpp in Sources */,
-				1F584D7418EAA243001B8FC5 /* OpenAL.cpp in Sources */,
 				1F1C4FE7167CA7ED00E99ECA /* btCollisionDispatcher.cpp in Sources */,
 				1F1C4FE8167CA7ED00E99ECA /* btCollisionObject.cpp in Sources */,
 				1F1C4FE9167CA7ED00E99ECA /* btCollisionWorld.cpp in Sources */,
@@ -1987,6 +1938,7 @@
 				1F1C4FFE167CA7ED00E99ECA /* btCollisionShape.cpp in Sources */,
 				1F1C4FFF167CA7ED00E99ECA /* btCompoundShape.cpp in Sources */,
 				1F1C5000167CA7ED00E99ECA /* btConcaveShape.cpp in Sources */,
+				1F797F6A19380A1400E9388B /* OpenAL.cpp in Sources */,
 				1F1C5001167CA7ED00E99ECA /* btConeShape.cpp in Sources */,
 				1F1C5002167CA7ED00E99ECA /* btConvex2dShape.cpp in Sources */,
 				1F1C5003167CA7ED00E99ECA /* btConvexHullShape.cpp in Sources */,

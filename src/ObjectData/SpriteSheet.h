@@ -10,7 +10,6 @@ namespace gen
 class SpriteSheet
 {
 public:
-    
     SpriteSheet(const ci::DataSourceRef& tex,
                 const UINT numTilesWide,
                 const UINT numTilesHigh);

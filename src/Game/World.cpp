@@ -6,7 +6,6 @@
 #include "Game/Enemy.h"
 #include "Game/World.h"
 #include "Game/PlayerCam.h"
-#include <math.h>
 
 using namespace gen;
 using namespace ci;
@@ -17,15 +16,9 @@ World::World()
 #if CI_AUDIO
     m_sfx_score_hit     = ci::audio::load(ci::app::loadResource(RES_SFX_SCORE_HIT_SOUND));
     m_sfx_score_miss    = ci::audio::load(ci::app::loadResource(RES_SFX_SCORE_MISS_SOUND));
-#elif CI_AUDIO2
-    m_sfx_score_hit     = audio2::Voice::create(audio2::load(loadResource(RES_SFX_SCORE_HIT_SOUND)));
-    m_sfx_score_miss    = audio2::Voice::create(audio2::load(loadResource(RES_SFX_SCORE_MISS_SOUND)));
 #elif AL_AUDIO
-    m_sfx_score_hit_buffer  = OpenAL::CreateBuffer(ci::app::loadResource(RES_SFX_SCORE_HIT_SOUND));
-    m_sfx_score_miss_buffer = OpenAL::CreateBuffer(ci::app::loadResource(RES_SFX_SCORE_MISS_SOUND));
-
-    m_sfx_score_hit_sources.push_back(OpenAL::CreateSource(m_sfx_score_hit_buffer));
-    m_sfx_score_miss_sources.push_back(OpenAL::CreateSource(m_sfx_score_miss_buffer));
+    m_pSfxScoreHit      = new OpenAL::Sound(ci::app::loadResource(RES_SFX_SCORE_HIT_SOUND));
+    m_pSfxScoreMiss     = new OpenAL::Sound(ci::app::loadResource(RES_SFX_SCORE_MISS_SOUND));
 #endif
 
     // Initialize Player
@@ -56,12 +49,9 @@ World::~World()
     delete m_pDiagonalsRect;
 
 #if CI_AUDIO
-#elif CI_AUDIO2
-    m_sfx_score_hit->stop();
-    m_sfx_score_miss->stop();
 #elif AL_AUDIO
-    alDeleteSources(m_sfx_score_hit_sources.size(), &m_sfx_score_hit_sources[0]);
-    alDeleteSources(m_sfx_score_miss_sources.size(), &m_sfx_score_miss_sources[0]);
+    delete m_pSfxScoreHit;
+    delete m_pSfxScoreMiss;
 #endif
 }
 
@@ -137,19 +127,8 @@ void World::Score()
 
     #if CI_AUDIO
                     ci::audio::Output::play(m_sfx_score_hit);
-    #elif CI_AUDIO2
-                    m_sfx_score_hit->stop();
-                    m_sfx_score_hit->play();
     #elif AL_AUDIO
-                    ALenum state;
-                    ALuint source = m_sfx_score_hit_sources.back();
-                    alGetSourcei(source, AL_SOURCE_STATE, &state);
-                    if (state == AL_PLAYING)
-                    {
-                        source = OpenAL::CreateSource(m_sfx_score_hit_buffer);
-                        m_sfx_score_hit_sources.push_back(source);
-                    }
-                    alSourcePlay(source);
+                    m_pSfxScoreHit->Play();
     #endif
 
                     score = true;
@@ -161,20 +140,9 @@ void World::Score()
         if (!score)
         {
     #if CI_AUDIO
-                    ci::audio::Output::play(m_sfx_score_miss);
-    #elif CI_AUDIO2
-                    m_sfx_score_miss->stop();
-                    m_sfx_score_miss->play();
+            ci::audio::Output::play(m_sfx_score_miss);
     #elif AL_AUDIO
-                    ALenum state;
-                    ALuint source = m_sfx_score_miss_sources.back();
-                    alGetSourcei(source, AL_SOURCE_STATE, &state);
-                    if (state == AL_PLAYING)
-                    {
-                        source = OpenAL::CreateSource(m_sfx_score_miss_buffer);
-                        m_sfx_score_miss_sources.push_back(source);
-                    }
-                    alSourcePlay(source);
+            m_pSfxScoreMiss->Play();
     #endif
         }
     }

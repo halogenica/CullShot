@@ -2,8 +2,8 @@
 #include "cinder/CinderResources.h"
 
 //#define RES_MY_RES			        CINDER_RESOURCE( ../resources/, image_name.png, 128, IMAGE )
-#define RES_SGUI_FONT                   CINDER_RESOURCE( ../../../libraries/cinder_0.8.6_dev/blocks/SimpleGUI/resources/, pf_tempesta_seven.ttf, 128, CI_FONT )
-#define RES_STATS_FONT                  CINDER_RESOURCE( ../resources/, ProggySquare.ttf,               129, CI_FONT )
+#define RES_SGUI_FONT                   CINDER_RESOURCE( ../resources/, pf_tempesta_seven.ttf,          128, CI_FONT )
+#define RES_STATS_FONT                  CINDER_RESOURCE( ../resources/, orbitron-light.ttf,             129, CI_FONT )
 
 #define RES_CUBE_OBJ                    CINDER_RESOURCE( ../resources/, cube.obj,                       130, CI_OBJ )
 #define RES_SPHERE_OBJ                  CINDER_RESOURCE( ../resources/, sphere.obj,                     131, CI_OBJ )

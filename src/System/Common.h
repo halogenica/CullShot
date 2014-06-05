@@ -1,14 +1,22 @@
 #pragma once
 
-#include <cassert>
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdint.h>
-
-#include "btBulletDynamicsCommon.h"
+#include <math.h>
+#include <cassert>
+#include <sstream>
+#include <algorithm>
+#include <map>
+#include <deque>
 
 #include "cinder/app/AppNative.h"
 #include "cinder/app/KeyEvent.h"
+#include "cinder/gl/Texture.h"
+#include "cinder/gl/TextureFont.h"
+#include "cinder/gl/Fbo.h"
+#include "cinder/audio/Output.h"
+#include "cinder/audio/Io.h"
 #include "cinder/ObjLoader.h"
 #include "cinder/Camera.h"
 #include "cinder/MayaCamUI.h"
@@ -17,10 +25,16 @@
 #include "cinder/Quaternion.h"
 #include "cinder/Text.h"
 #include "cinder/ImageIo.h"
-#include "cinder/gl/Texture.h"
-#include "cinder/gl/TextureFont.h"
-#include "cinder/gl/Fbo.h"
 #include "cinder/Arcball.h"
+#if ! defined(CINDER_GLES)  // shader support only on desktop
+#include "cinder/gl/GlslProg.h"
+#endif
+
+// Compiled resources
+#include "System/Resources.h"
+
+// Bullet block
+#include "btBulletDynamicsCommon.h"
 
 // SimpleGUI block
 #include "SimpleGUI.h"
@@ -33,36 +47,8 @@ extern "C" {
 // OpenAL block
 #include "OpenAL.h"
 
-#if ! defined(CINDER_GLES)
-#include "cinder/gl/GlslProg.h"
-#endif
-
-#define CI_AUDIO    0
-#define CI_AUDIO2   0
-#define AL_AUDIO    1
-
-#if CI_AUDIO
-// Only works with .wav on windows or .mp3 on mac
-#include "cinder/audio/Output.h"
-#include "cinder/audio/Io.h"
-#elif CI_AUDIO2
-// Only works with .ogg files, change Resource.h
-#define _WIN32_WINNT 0x0502
-#include "cinder/audio2/Voice.h"
-#elif AL_AUDIO
+// Detect type of apple device
 #ifdef __APPLE__
-#include "OpenAL/al.h"
-#include "OpenAL/alc.h"
-#else
-#include "AL/al.h"
-#include "AL/alc.h"
-#endif
-#endif
-
-#include "System/Resources.h"
-
-#ifdef __APPLE__
-
 #include "TargetConditionals.h"
 #if TARGET_OS_IPHONE
 // iOS device
@@ -71,22 +57,19 @@ extern "C" {
 #elif TARGET_OS_MAC
 // Other kinds of Mac OS
 #endif
-
-#else
-// Windows
 #endif
 
 /**********************************************************\
 *    Macros
 \**********************************************************/
-// Asserts
-#if DEBUG
-//    #define ASSERT(x) { if (!(x)) { abort(); } }
-#define ASSERT(x) {if (!(x)) {__debugbreak();}}
+// Run time assert
+#ifdef DEBUG
+    #define ASSERT(x) {if (!(x)) {__debugbreak();}} // could also use abort()
 #else
     #define ASSERT(x)
 #endif
 
+// Compile time assert
 #define CASSERT(predicate) _impl_CASSERT_LINE(predicate,__LINE__,__FILE__)
 #define _impl_PASTE(a,b) a##b
 #define _impl_CASSERT_LINE(predicate, line, file) \
@@ -96,9 +79,7 @@ extern "C" {
 /**********************************************************\
 *    Defines
 \**********************************************************/
-//#define NULL    ((void *)0)
-
-// define the screen resolution
+// define scene information
 #define SCREEN_WIDTH    1280
 #define SCREEN_HEIGHT   720
 #define FOV             D3DXToRadian(45)
@@ -108,6 +89,22 @@ extern "C" {
 
 #define GRAVITY_CONST   -20.0f
 #define MAX_VELOCITY    500.0f
+
+// Choose an audio library
+#define CI_AUDIO    0
+#define AL_AUDIO    1
+CASSERT(CI_AUDIO ^ AL_AUDIO)
+
+// Specify memory tracking
+// TODO: currently triggers memory leaks from Cinder
+#define DEBUG_MEM_TRACKING  0
+
+#if defined DEBUG && DEBUG_MEM_TRACKING
+    #define _CRTDBG_MAP_ALLOC
+    #include <crtdbg.h>
+// TODO: bullet overloads operator new and doesn't provide definitions for crtdbg
+//    #define new new(_NORMAL_BLOCK,__FILE__,__LINE__)
+#endif
 
 
 /**********************************************************\
@@ -136,12 +133,10 @@ namespace mowa
 extern gen::App*                g_pApp;               // application
 extern gen::Input*              g_pInputP1;           // P1 input
 extern gen::Input*              g_pInputP2;           // P2 input
-extern gen::Input*              g_pInputP3;           // P3 input
-extern gen::Input*              g_pInputP4;           // P4 input
 extern gen::Stats*              g_pStats;             // statistics
 extern gen::ObjectManager*      g_pObjectManager;     // the object manager
 extern btDiscreteDynamicsWorld* g_pBtDynamicsWorld;   // the physics world
-//extern mowa::sgui::SimpleGUI*   g_pGui;               // the GUI
+extern mowa::sgui::SimpleGUI*   g_pGui;               // the GUI
 
 
 /**********************************************************\
@@ -180,23 +175,23 @@ enum GameState
 /*
 namespace gen
 {
-typedef unsigned long   ULONG;
-typedef unsigned int    UINT;
-typedef unsigned short  USHORT;
-typedef unsigned char   UCHAR;
+typedef unsigned long       ULONG;
+typedef unsigned int        UINT;
+typedef unsigned short      USHORT;
+typedef unsigned char       UCHAR;
 
-typedef boost::uint64_t QWORD;
-typedef boost::uint32_t DWORD;
-typedef boost::uint16_t WORD;
-typedef boost::uint8_t  BYTE;
+typedef boost::uint64_t     QWORD;
+typedef boost::uint32_t     DWORD;
+typedef boost::uint16_t     WORD;
+typedef boost::uint8_t      BYTE;
 }
 */
 
 #ifdef __APPLE__
-typedef unsigned long   ULONG;
-typedef unsigned int    UINT;
-typedef unsigned short  USHORT;
-typedef unsigned char   UCHAR;
+typedef unsigned long       ULONG;
+typedef unsigned int        UINT;
+typedef unsigned short      USHORT;
+typedef unsigned char       UCHAR;
 
 typedef unsigned long long  QWORD;
 typedef unsigned long       DWORD;
@@ -220,22 +215,14 @@ const float MATH_EPS = 0.0001f;
 \**********************************************************/
 namespace gen
 {
-float GetRandomMinMax( float fMin, float fMax );
-ci::Vec3f GetRandomVector( void );
-}
 
-
-/**********************************************************\
-*    Inline
-\**********************************************************/
-
-inline float gen::GetRandomMinMax(float fMin, float fMax)
+inline float GetRandomMinMax( float fMin, float fMax )
 {
-    float fRandNum = (float)rand () / RAND_MAX;
+    float fRandNum = (float)rand() / RAND_MAX;
     return fMin + (fMax - fMin) * fRandNum;
 }
 
-inline ci::Vec3f gen::GetRandomVector(void)
+inline ci::Vec3f GetRandomVector( void )
 {
     ci::Vec3f vVector;
 
@@ -253,4 +240,6 @@ inline ci::Vec3f gen::GetRandomVector(void)
     vVector.y = (float)sinf(t) * radius;
 
 	return vVector;
+}
+
 }

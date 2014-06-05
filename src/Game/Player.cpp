@@ -48,17 +48,11 @@ Player::Player() : m_spinPos(0), m_spinRate(0), m_spinTime(0), m_charging(false)
     }
 
 #if CI_AUDIO
-    m_sfx_charge        = ci::audio::load(ci::app::loadResource(RES_SFX_CHARGE_SOUND));
-    m_sfx_shoot         = ci::audio::load(ci::app::loadResource(RES_SFX_SHOOT_SOUND));
-#elif CI_AUDIO2
-    m_sfx_charge        = audio2::Voice::create(audio2::load(loadResource(RES_SFX_CHARGE_SOUND)));
-    m_sfx_shoot         = audio2::Voice::create(audio2::load(loadResource(RES_SFX_SHOOT_SOUND)));
+    m_sfx_charge    = ci::audio::load(ci::app::loadResource(RES_SFX_CHARGE_SOUND));
+    m_sfx_shoot     = ci::audio::load(ci::app::loadResource(RES_SFX_SHOOT_SOUND));
 #elif AL_AUDIO
-    m_sfx_charge_buffer     = OpenAL::CreateBuffer(ci::app::loadResource(RES_SFX_CHARGE_SOUND));
-    m_sfx_shoot_buffer      = OpenAL::CreateBuffer(ci::app::loadResource(RES_SFX_SHOOT_SOUND));
-
-    m_sfx_charge_sources.push_back(OpenAL::CreateSource(m_sfx_charge_buffer));
-    m_sfx_shoot_sources.push_back(OpenAL::CreateSource(m_sfx_shoot_buffer));
+    m_pSfxCharge    = new OpenAL::Sound(ci::app::loadResource(RES_SFX_CHARGE_SOUND));
+    m_pSfxShoot     = new OpenAL::Sound(ci::app::loadResource(RES_SFX_SHOOT_SOUND));
 #endif
 }
 
@@ -76,13 +70,11 @@ Player::~Player()
     delete m_pTimerCullCircle;
     delete m_pCooldownCircle;
     delete m_pCooldownCircleOutline;
+
 #if CI_AUDIO
-#elif CI_AUDIO2
-    m_sfx_charge->stop();
-    m_sfx_shoot->stop();
 #elif AL_AUDIO
-    alDeleteSources(m_sfx_charge_sources.size(), &m_sfx_charge_sources[0]);
-    alDeleteSources(m_sfx_shoot_sources.size(), &m_sfx_shoot_sources[0]);
+    delete m_pSfxCharge;
+    delete m_pSfxShoot;
 #endif
 }
 
@@ -150,19 +142,8 @@ void Player::Update(float dt)
             // Play sound
 #if CI_AUDIO
             ci::audio::Output::play(m_sfx_charge);
-#elif CI_AUDIO2
-            m_sfx_charge->stop();
-            m_sfx_charge->play();
 #elif AL_AUDIO
-            ALenum state;
-            ALuint source = m_sfx_charge_sources.back();
-            alGetSourcei(source, AL_SOURCE_STATE, &state);
-            if (state == AL_PLAYING)
-            {
-                source = OpenAL::CreateSource(m_sfx_charge_buffer);
-                m_sfx_charge_sources.push_back(source);
-            }
-            alSourcePlay(source);
+            m_pSfxCharge->Play();
 #endif
         }
         m_spinPos = fmodf(m_spinPos, PI);
@@ -181,19 +162,8 @@ void Player::Update(float dt)
                 // Play sound
 #if CI_AUDIO
                 ci::audio::Output::play(m_sfx_charge);
-#elif CI_AUDIO2
-                m_sfx_charge->stop();
-                m_sfx_charge->play();
 #elif AL_AUDIO
-                ALenum state;
-                ALuint source = m_sfx_charge_sources.back();
-                alGetSourcei(source, AL_SOURCE_STATE, &state);
-                if (state == AL_PLAYING)
-                {
-                    source = OpenAL::CreateSource(m_sfx_charge_buffer);
-                    m_sfx_charge_sources.push_back(source);
-                }
-                alSourcePlay(source);
+                m_pSfxCharge->Play();
 #endif
             }
             m_spinPos = fmodf(m_spinPos, PI);
@@ -300,19 +270,8 @@ void Player::Shoot()
         // Play sound
 #if CI_AUDIO
         ci::audio::Output::play(m_sfx_shoot);
-#elif CI_AUDIO2
-        m_sfx_shoot->stop();
-        m_sfx_shoot->play();
 #elif AL_AUDIO
-        ALenum state;
-        ALuint source = m_sfx_shoot_sources.back();
-        alGetSourcei(source, AL_SOURCE_STATE, &state);
-        if (state == AL_PLAYING)
-        {
-            source = OpenAL::CreateSource(m_sfx_shoot_buffer);
-            m_sfx_shoot_sources.push_back(source);
-        }
-        alSourcePlay(source);
+        m_pSfxShoot->Play();
 #endif
     }
 }

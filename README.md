@@ -61,9 +61,10 @@ Built using VS2012 on Win, Xcode5 on Mac
 All project paths are relative, root can be whatever you want. My root (~) is C:/Code/..
 
 Directory trees:
-~/games/CULL_SHOT/..                           (directory of this readme, requires all of the below to be built first)
-~/libraries/bullet-2.82-r2704/..               (download from code.google.com/p/bullet/)
-~/libraries/openal-soft-1.15.1/..              (download from kcat.strangesoft.net/openal.html, build as static lib)
-~/libraries/cinder_0.8.6_dev/boost/..          (download from sourceforge.net/projects/boost/files/boost/1.53.0/)
-~/libraries/cinder_0.8.6_dev/..                (download from github.com/cinder/Cinder/tree/dev, requies boost to build)
-~/libraries/cinder_0.8.6_dev/blocks/Gamepad/.. (download from github.com/halogenica/Cinder-Gamepad)
+~/games/CULL_SHOT/..                           		(requires all of the below to be built first)
+~/libraries/cinder_0.8.6_dev/..                		(github.com/cinder/Cinder/tree/dev, requies boost to build)
+~/libraries/cinder_0.8.6_dev/boost/..          		(sourceforge.net/projects/boost/files/boost/1.53.0/)
+~/libraries/cinder_0.8.6_dev/blocks/Bullet/..       (github.com/halogenica/Cinder-Bullet)
+~/libraries/cinder_0.8.6_dev/blocks/Gamepad/.. 		(github.com/halogenica/Cinder-Gamepad)
+~/libraries/cinder_0.8.6_dev/blocks/OpenAL/..       (github.com/halogenica/Cinder-OpenAL)
+~/libraries/cinder_0.8.6_dev/blocks/SimpleGUI/..    (github.com/halogenica/Cinder-SimpleGUI)

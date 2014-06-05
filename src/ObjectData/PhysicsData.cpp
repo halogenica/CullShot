@@ -25,12 +25,12 @@ void PhysicsData::Initialize(const btVector3& pos, const btQuaternion& rot, Obje
 PhysicsData::PhysicsData(btCollisionShape* pBtCollisionShape, btScalar mass, short collisionGroup, short collisionMask) :
     m_pBtCollisionShape(pBtCollisionShape), m_mass(mass), m_collisionGroup(collisionGroup), m_collisionMask(collisionMask)
 {
-    g_pStats->addRigidBodies(1);
+    g_pStats->AddRigidBodies(1);
 }
 
 PhysicsData::~PhysicsData()
 {
-    g_pStats->subRigidBodies(1);
+    g_pStats->SubRigidBodies(1);
     g_pBtDynamicsWorld->removeRigidBody(m_pBtRigidBody);
     delete m_pBtMotionState;
     delete m_pBtRigidBody;
